@@ -1,0 +1,4 @@
+Notas de práctica del curso.
+
+- Este archivo sirve para practicar git add y git commit.
+- Bórralo o cámbialo sin miedo: es material desechable.

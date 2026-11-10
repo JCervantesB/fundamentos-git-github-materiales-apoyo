@@ -1,0 +1,32 @@
+:root {
+  --fondo: #0d1117;
+  --texto: #c9d1d9;
+  --acento: #58a6ff;
+  --borde: #30363d;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, sans-serif;
+  background: var(--fondo);
+  color: var(--texto);
+  line-height: 1.6;
+}
+
+header, footer {
+  text-align: center;
+  padding: 1.25rem;
+}
+
+header { border-bottom: 1px solid var(--borde); }
+footer { border-top: 1px solid var(--borde); }
+
+main {
+  max-width: 640px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+h1, h2 { color: var(--acento); }
+
+a { color: var(--acento); }

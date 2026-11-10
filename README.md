@@ -1,83 +1,86 @@
-# Material de apoyo para el alumno — Fundamentos de Git y GitHub
+# Materiales de apoyo — Fundamentos de Git y GitHub
 
-Este material genera los repositorios que el alumno **clona o descarga** durante el
-curso, según el `guion.md`.
+Carpetas con el contenido de los repositorios que se usan en el curso.
+**No** son repositorios Git: son el material de referencia para construir el
+historial de commits durante la grabación.
 
-## Qué hay aquí
+## Estructura
 
-| Archivo | Descripción |
-|---|---|
-| `construir-repos.sh` | Script que crea los repositorios con su historial de commits. **Fuente única de verdad** del contenido. |
-| `.gitignore` | Ignora `salida/` (los repos generados se publican aparte). |
-| `salida/` | Carpeta generada al ejecutar el script (ignorada por git, no se sube). |
-
-## Repositorios que se generan
-
-| Repositorio | Entrega al alumno | Módulos |
+| Carpeta | Qué es | Módulos |
 |---|---|---|
-| `fundamentos-git-github` | `git clone` | 4, 7, 8, 10, 12 |
-| `proyecto-inicial` | `git clone` | 4, 7, 11 (reflog/reset) |
-| `repositorio-ejemplo` | `git clone` | 8.3, 8.4 |
-| `proyecto-contaminado.zip` | **ZIP (sin git)** | 5.1 |
+| `fundamentos-git-github/` | Proyecto principal (Portafolio ASCII) | 4, 7, 8, 10, 12 |
+| `proyecto-inicial/` | Dataset con historial rico y rama fusionada | 4, 7, 11 |
+| `repositorio-ejemplo/` | Repo público de demostración (`git clone`) | 8.3, 8.4 |
+| `proyecto-contaminado/` | Proyecto con archivos que NO deben versionarse | 5.1 |
 
-## Cómo generar los repositorios
+## Cómo se usa
 
-1. Abre **Git Bash** en esta carpeta.
-2. Ejecuta:
-   ```bash
-   ./construir-repos.sh
-   ```
-   Esto crea `salida/` con los tres repos Git y la carpeta `proyecto-contaminado`
-   (además intenta crear el ZIP si tienes `zip` instalado).
-3. Para elegir otra carpeta de salida:
-   ```bash
-   ./construir-repos.sh C:/ruta/a/mi/salida
-   ```
+Durante la grabación, cada carpeta se convierte en un repositorio con `git init`
+y se van creando los commits **en el orden indicado abajo**. El contenido de cada
+carpeta es el **estado final**; los commits intermedios se arman añadiendo las
+secciones paso a paso.
 
-## Cómo publicar en GitHub
+---
 
-Hay **dos niveles** de publicación:
+## `fundamentos-git-github` — secuencia de commits
 
-### 1. Este repositorio (materiales de apoyo)
+| # | Mensaje | Qué añade |
+|---|---|---|
+| 1 | Crear estructura base del proyecto | `index.html`, `estilos.css`, `.gitignore` |
+| 2 | Crear README inicial | `README.md` (título + arte ASCII) |
+| 3 | Añadir título y descripción del portafolio | párrafo de bienvenida |
+| 4 | Añadir sección de perfil | sección "Sobre mí" |
+| 5 | Añadir lista de proyectos | sección "Proyectos" |
+| 6 | Añadir datos de contacto | sección "Contacto" + `contacto.md` |
 
-Lleva solo la "fuente": `construir-repos.sh`, `README.md` y `.gitignore`.
-La carpeta `salida/` está **ignorada** (se regenera con el script) y **no** se sube.
+---
 
-```bash
-git init -b main
-git add construir-repos.sh README.md .gitignore
-git commit -m "Añadir material de apoyo del curso"
-git remote add origin https://github.com/JCervantesB/fundamentos-git-github-materiales-apoyo.git
-git push -u origin main
+## `proyecto-inicial` — secuencia de commits
+
+Dos autores simulados: **Ana** y **Luis**.
+
+| # | Mensaje | Autor | Qué añade |
+|---|---|---|---|
+| 1 | Commit inicial | Ana | `index.html`, `estilos.css`, `notas.txt` |
+| 2 | Añadir estilos base | Ana | estilos de header/footer en `estilos.css` |
+| 3 | Crear README inicial | Ana | `README.md` (título) |
+| 4 | Añadir título y descripción del portafolio | Luis | párrafo de descripción |
+| 5 | Añadir sección de perfil | Luis | sección "Sobre mí" |
+| 6 | Añadir lista de proyectos | Ana | sección "Proyectos" |
+| 7 | Añadir datos de contacto | Luis | sección "Contacto" |
+| 8 | Añadir encabezado a la página | Luis | `<header>` en `index.html` (en rama `feature-header`) |
+| 9 | Merge branch 'feature-header' | Luis | fusión a `main` |
+
+> El commit 8 se hace en una rama `feature-header` (creada desde el 7) y luego se
+> fusiona a `main` con `git merge --no-ff` para dejar un **merge commit** en el historial.
+
+---
+
+## `repositorio-ejemplo` — secuencia de commits
+
+| # | Mensaje | Qué añade |
+|---|---|---|
+| 1 | Commit inicial | `app.js` |
+| 2 | Añadir README con instrucciones | `README.md` |
+| 3 | Añadir LICENSE | `LICENSE` |
+
+---
+
+## `proyecto-contaminado` — sin commits
+
+Esta carpeta **no** es un repositorio. Se entrega al alumno como **ZIP**.
+El alumno hace `git init` y crea un `.gitignore` que excluya:
+
+```
+node_modules/
+dist/
+*.log
+.env
+.DS_Store
 ```
 
-### 2. Cada repositorio generado, en su propio repo de GitHub
+## Nota
 
-Para `fundamentos-git-github`, `proyecto-inicial` y `repositorio-ejemplo`:
-
-1. Crea el repo vacío en GitHub **sin** marcar "Add a README".
-2. Añade el remoto y sube:
-   ```bash
-   cd salida/fundamentos-git-github
-   git remote add origin https://github.com/<org>/fundamentos-git-github.git
-   git push -u origin main
-   ```
-
-El `proyecto-contaminado` **no** se publica como repo: se entrega como ZIP.
-Adjunta `salida/proyecto-contaminado.zip` como **asset de un Release** en este
-repositorio (o enlázalo desde el README del curso).
-
-## Nota sobre los hashes
-
-Los hashes de los commits los genera Git en cada construcción, por lo que **no
-coinciden** con los que aparecen en el guion (`8f3a9c2`, `b5d4e1f`, etc.), que son
-ilustrativos. Lo que sí se respeta exactamente son los **mensajes de commit** y el
-**orden** de los cambios.
-
-## Personalización rápida
-
-- **Nombre/autor de los commits:** edita `INSTRUCTOR_NAME` / `INSTRUCTOR_EMAIL`
-  al inicio del script.
-- **Autores del dataset:** edita `ANA` / `LUIS` y sus correos.
-- **Fechas:** el script usa `date -d "N days ago"`. En macOS, sustituye la función
-  `dia()` por `date -v-Nd`.
+Los hashes de los commits los genera Git en cada máquina, por lo que **no
+coinciden** con los que aparecen en el guion (`8f3a9c2`, etc.), que son
+ilustrativos. Lo importante es respetar los **mensajes** y el **orden**.
