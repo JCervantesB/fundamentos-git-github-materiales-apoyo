@@ -8,7 +8,8 @@ curso, según el `guion.md`.
 | Archivo | Descripción |
 |---|---|
 | `construir-repos.sh` | Script que crea los repositorios con su historial de commits. **Fuente única de verdad** del contenido. |
-| `salida/` | Carpeta generada al ejecutar el script (no se edita a mano). |
+| `.gitignore` | Ignora `salida/` (los repos generados se publican aparte). |
+| `salida/` | Carpeta generada al ejecutar el script (ignorada por git, no se sube). |
 
 ## Repositorios que se generan
 
@@ -35,8 +36,24 @@ curso, según el `guion.md`.
 
 ## Cómo publicar en GitHub
 
-Para cada repositorio (`fundamentos-git-github`, `proyecto-inicial`,
-`repositorio-ejemplo`):
+Hay **dos niveles** de publicación:
+
+### 1. Este repositorio (materiales de apoyo)
+
+Lleva solo la "fuente": `construir-repos.sh`, `README.md` y `.gitignore`.
+La carpeta `salida/` está **ignorada** (se regenera con el script) y **no** se sube.
+
+```bash
+git init -b main
+git add construir-repos.sh README.md .gitignore
+git commit -m "Añadir material de apoyo del curso"
+git remote add origin https://github.com/JCervantesB/fundamentos-git-github-materiales-apoyo.git
+git push -u origin main
+```
+
+### 2. Cada repositorio generado, en su propio repo de GitHub
+
+Para `fundamentos-git-github`, `proyecto-inicial` y `repositorio-ejemplo`:
 
 1. Crea el repo vacío en GitHub **sin** marcar "Add a README".
 2. Añade el remoto y sube:
@@ -47,6 +64,8 @@ Para cada repositorio (`fundamentos-git-github`, `proyecto-inicial`,
    ```
 
 El `proyecto-contaminado` **no** se publica como repo: se entrega como ZIP.
+Adjunta `salida/proyecto-contaminado.zip` como **asset de un Release** en este
+repositorio (o enlázalo desde el README del curso).
 
 ## Nota sobre los hashes
 
